@@ -1,4 +1,8 @@
-
+// Name: Sebastian Mielko
+// Class: CS 3305/Section#03
+// Term: Spring 2023
+// Instructor: Prof. Majeed
+// Assignment: 7
 import java.util.Scanner;
 public class hashFunctions
 {
@@ -20,7 +24,8 @@ public class hashFunctions
                 case "1" -> HF1(keys, HashTable);
                 case "2" -> HF2(keys, HashTable);
                 case "3" -> HF3(keys, HashTable);
-                case "4", "5" -> isFinished = true;
+                case "4" -> HF4(keys, HashTable);
+                case "5" -> isFinished = true;
                 default -> System.out.println("Enter valid input");
             }
         }
@@ -73,11 +78,9 @@ public class hashFunctions
         }
         PrintResults(HashTable);
     }
-    /* Specifically, double hashing looks at the cells at indices (k + j* h′(key)) % N, for j Ú 0, that is,
-k % N, (k + h′(key))% N, (k + 2* h′(key)) % N, (k + 3* h′(key)) % N, and so on
-
+    /*
     H2 (key) = 30 – key % 25;
-Increment is { key + j * H2 (key) } % 50
+    Increment is { key + j * H2 (key) } % 50
     */
     public static void HF3(int[] keys, int[][] HashTable)
     {
@@ -107,6 +110,13 @@ Increment is { key + j * H2 (key) } % 50
             numberOfProbes = 0;
         }
         PrintResults(HashTable);
+    }
+
+    public static void HF4(int[] keys, int[][] HashTable)
+    {
+        int hashedKey;
+        int numberOfProbes = 0;
+        int size = HashTable.length;
     }
     public static void PrintResults(int[][] HashTable)
     {
