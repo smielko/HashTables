@@ -3,12 +3,14 @@
 // Term: Spring 2023
 // Instructor: Prof. Majeed
 // Assignment: 7
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Scanner;
 public class hashFunctions
 {
     public static void main(String[] args){
         int[] keys =
-                {1234, 8234, 7867, 1009, 5438, 4312, 3420, 9487, 5418, 5299,
+                {       1234, 8234, 7867, 1009, 5438, 4312, 3420, 9487, 5418, 5299,
                         5078, 8239, 1208, 5098, 5195, 5329, 4543, 3344, 7698, 5412,
                         5567, 5672, 7934, 1254, 6091, 8732, 3095, 1975, 3843, 5589,
                         5439, 8907, 4097, 3096, 4310, 5298, 9156, 3895, 6673, 7871,
@@ -33,7 +35,6 @@ public class hashFunctions
     }
     public static void DisplayMenu()
     {
-
         System.out.print("\n-----MAIN MENU--------------------------------------\n" +
                 "1. Run HF1 (Division method with Linear Probing)\n" +
                 "2. Run HF2 (Division method with Quadratic Probing)\n" +
@@ -117,6 +118,8 @@ public class hashFunctions
         int hashedKey;
         int numberOfProbes = 0;
         int size = HashTable.length;
+        LinkedList<Integer> Bucket = new LinkedList<>();
+        HashTable[0][0] = Bucket.get(0);
     }
     public static void PrintResults(int[][] HashTable)
     {
@@ -131,9 +134,8 @@ public class hashFunctions
     public static void ProbeSum(int[][] HashTable)
     {
         int sum=0;
-        for (int i = 0; i < HashTable.length; i++)
-        {
-            sum+=HashTable[i][1];
+        for (int[] ints : HashTable) {
+            sum += ints[1];
         }
         System.out.println("Sum of Probes: " + sum);
     }
