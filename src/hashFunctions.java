@@ -3,9 +3,8 @@
 // Term: Spring 2023
 // Instructor: Prof. Majeed
 // Assignment: 7
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.Scanner;
+import java.util.*;
+
 public class hashFunctions
 {
     public static void main(String[] args){
@@ -116,10 +115,36 @@ public class hashFunctions
     public static void HF4(int[] keys, int[][] HashTable)
     {
         int hashedKey;
-        int numberOfProbes = 0;
         int size = HashTable.length;
-        LinkedList<Integer> Bucket = new LinkedList<>();
-        HashTable[0][0] = Bucket.get(0);
+        LinkedList<Integer> [] Buckets = new LinkedList[50];
+        for (int i = 0; i < Buckets.length; i++)
+        {
+            Buckets[i] = new LinkedList<>();
+        }
+        for(int i = 0; i < size; i ++)
+        {
+            hashedKey = keys[i] % size;
+            if (hashedKey%2 == 0)
+            Buckets[hashedKey].add(keys[i]); //check if empty condition
+            if (hashedKey%2 == 1)
+            {
+                hashedKey *=2 +1;
+                hashedKey %=50;
+                Buckets[hashedKey].add(keys[i]); //check if empty condition
+            }
+        }
+        for (int i = 0; i < size; i++)
+        {
+            for (int j = 0; j < Buckets[i].toArray().length; j++)
+            {
+                HashTable[i][0] = Buckets[i].get(j);
+            }
+            if (Buckets[i].size() >= 1)
+                HashTable[i][1] = Buckets[i].size();
+            if (Buckets[i].size() == 0)
+                HashTable[i][1] = 0;
+        }
+        PrintResults(HashTable);
     }
     public static void PrintResults(int[][] HashTable)
     {
