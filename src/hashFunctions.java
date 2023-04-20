@@ -16,14 +16,12 @@ public class hashFunctions
             DisplayMenu();
             Scanner myScanner = new Scanner(System.in);
             String selection = myScanner.next();
-            switch (selection)
-            {
-                case"1":DivisionHashLinearProbe(keys,HashTable);break; //done
-                case"2":DivisionHashQuadraticProbe(keys,HashTable);break;//done
-                case"3":DivisionHashDoubleHashing(keys,HashTable);break;
-                case"4":
-                case"5":isFinished=true; break;
-                default: System.out.println("Enter valid input");
+            switch (selection) {
+                case "1" -> HF1(keys, HashTable);
+                case "2" -> HF2(keys, HashTable);
+                case "3" -> HF3(keys, HashTable);
+                case "4", "5" -> isFinished = true;
+                default -> System.out.println("Enter valid input");
             }
         }
 
@@ -39,7 +37,7 @@ public class hashFunctions
                 "5. Exit program\n" +
                 "Enter option number:");
     }
-    public static void DivisionHashLinearProbe(int[] keys, int[][] HashTable)
+    public static void HF1(int[] keys, int[][] HashTable)
     {
         int hashedKey; int numberOfProbes = 0;
         int size = HashTable.length;
@@ -57,7 +55,7 @@ public class hashFunctions
         }
         PrintResults(HashTable);
     }
-    public static void DivisionHashQuadraticProbe(int[] keys, int[][] HashTable)
+    public static void HF2(int[] keys, int[][] HashTable)
     {
         int hashedKey; int numberOfProbes = 0;
         int size = HashTable.length;
@@ -66,7 +64,7 @@ public class hashFunctions
             hashedKey = keys[i] % size;
             while (HashTable[hashedKey][0] > 0) //check if empty condition
             {
-                hashedKey = (int) (keys[i] + Math.pow(numberOfProbes+1,2))%50;
+                hashedKey = (int) (keys[i] + Math.pow(numberOfProbes+1,2))%size;
                 numberOfProbes++;
             }
             HashTable[hashedKey][0] = keys[i];
@@ -81,25 +79,31 @@ k % N, (k + h′(key))% N, (k + 2* h′(key)) % N, (k + 3* h′(key)) % N, and s
     H2 (key) = 30 – key % 25;
 Increment is { key + j * H2 (key) } % 50
     */
-    public static void DivisionHashDoubleHashing(int[] keys, int[][] HashTable)
+    public static void HF3(int[] keys, int[][] HashTable)
     {
         int hashedKey; int numberOfProbes = 0;
         int size = HashTable.length;
         for(int i = 0; i < size; i ++)
         {
+            boolean isHashed = true;
             hashedKey = keys[i] % size;
             while (HashTable[hashedKey][0] > 0) //check if empty condition
             {
-                hashedKey = (keys[i] + numberOfProbes+1 *(30 - keys[i] %25)) % 50;
-                if (numberOfProbes >=50)
+                hashedKey = (keys[i] + (numberOfProbes+1) * (30 - keys[i] % 25)) % size;
+                if (numberOfProbes > 50) // no more than 50 tries
                 {
                     System.out.println("Unable to hash " + keys[i] + " to the table");
+                    numberOfProbes = 0;
+                    isHashed = false;
                     break;
                 }
                 numberOfProbes++;
             }
-            HashTable[hashedKey][0] = keys[i];
-            HashTable[i][1] = numberOfProbes;
+            if (isHashed)//successfully hashed
+            {
+                HashTable[hashedKey][0] = keys[i];
+                HashTable[i][1] = numberOfProbes;
+            }
             numberOfProbes = 0;
         }
         PrintResults(HashTable);
